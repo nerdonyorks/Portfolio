@@ -195,87 +195,70 @@ var siteMenuClone = function() {
 
 var owlCarouselPlugin = function() {
 
-	$('.testimonial-slider').owlCarousel({
+  // Testimonial Slider
+  $('.testimonial-slider').owlCarousel({
     center: false,
     items: 1,
     loop: true,
     stagePadding: 20,
-  	margin: 10,
-    smartSpeed: 2000,
+    margin: 10,
+    smartSpeed: 2000,           // Slide animation speed
     autoplay: true,
+    autoplayTimeout: 4000,      // Delay between slides (4 seconds)
     autoplayHoverPause: true,
     dots: true,
     nav: true,
     navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">'],
-
     responsive:{
-        400:{
-          stagePadding: 20,
-  				margin: 10,
-        },
-        600:{
-          stagePadding: 100,
-  				margin: 50,
-        }
+      400:{ stagePadding: 20, margin: 10 },
+      600:{ stagePadding: 100, margin: 50 }
     }
-	});
-	owlSingleSlider();
+  });
+  owlSingleSlider();
 
-	if ( $('.logo-slider').length ) {
-
-		$('.logo-slider').owlCarousel({
-			center: false,
-	    loop: true,
-	    stagePadding: 0,
-	    margin: 0,
-	    smartSpeed: 1000,
-	    autoplay: true,
-	    autoplayHoverPause: true,
-	    dots: false,
-	    nav: false,
-	    responsive:{
-		    400:{
-		      items: 2
-		    },
-		    768:{
-		    	items: 3
-		    },
-		    1000:{
-		    	items: 5
-		    }
-	    }
-	   });
-	}
-
+  // Logo Slider
+  if ( $('.logo-slider').length ) {
+    $('.logo-slider').owlCarousel({
+      center: false,
+      loop: true,
+      stagePadding: 0,
+      margin: 0,
+      smartSpeed: 1000,           // Slide animation speed
+      autoplay: true,
+      autoplayTimeout: 2000,      // Delay between slides (2 seconds)
+      autoplayHoverPause: true,
+      dots: false,
+      nav: false,
+      responsive:{
+        400:{ items: 2 },
+        768:{ items: 3 },
+        1000:{ items: 5 }
+      }
+    });
+  }
 };
 
 var owlSingleSlider = function () {
-	if ( $( '.single-slider' ).length ) {
-		$('.single-slider').owlCarousel({
-	    center: false,
-	    items: 1,
-	    loop: true,
-	    stagePadding: 0,
-	    margin: 0,
-	    smartSpeed: 1500,
-	    autoplay: true,
-	    autoplayHoverPause: true,
-	    dots: true,
-	    nav: true,
-	    navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">'],
-
-	    responsive:{
-	      400:{
-	        stagePadding: 0,
-					margin: 0,
-	      },
-	      600:{
-	        stagePadding: 0,
-					margin: 0,
-	      }
-	    }
-		});
-	}
+  if ( $( '.single-slider' ).length ) {
+    $('.single-slider').owlCarousel({
+      center: false,
+      items: 1,
+      loop: true,
+      stagePadding: 0,
+      margin: 0,
+      smartSpeed: 1500,           // Slide animation speed
+      autoplay: true,
+      autoplayTimeout: 1000,      // Delay between slides (5 seconds)
+      autoplayHoverPause: true,
+      dots: true,
+      nav: true,
+      navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">'],
+      responsive:{
+        400:{ stagePadding: 0, margin: 0 },
+        600:{ stagePadding: 0, margin: 0 }
+      }
+    });
+  }
 }
 
 var floatingLabel = function () {
@@ -561,7 +544,7 @@ var contactForm = function() {
 
         $submit.css('display', 'block').text(waitText);
 
-        
+        // ✉️ Use EmailJS instead of PHP
         emailjs.sendForm('service_y9anqz5', 'template_qo3g85f', form)
           .then(function(response) {
             $('#form-message-warning').hide();
