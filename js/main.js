@@ -516,52 +516,69 @@ var jarallaxPlugin = function() {
 };
 
 var contactForm = function() {
-  if ($('#contactForm').length > 0) {
-    $("#contactForm").validate({
-      rules: {
-        name: "required",
-        email: {
-          required: true,
-          email: true
-        },
-        message: {
-          required: true,
-          minlength: 5
-        }
-      },
-      messages: {
-        name: "Please enter your name",
-        email: "Please enter a valid email address",
-        message: "Please enter a message"
-      },
-      errorElement: 'span',
-      errorLabelContainer: '.form-error',
+	if ($('#contactForm').length > 0) {
+		$("#contactForm").validate({
+			rules: {
+				name: {
+					required: true,
+					// Only allow letters and spaces
+					pattern: /^[A-Za-z\s]+$/
+				},
+				email: {
+					required: true,
+					email: true
+				},
+				message: {
+					required: true,
+					minlength: 5
+				}
+			},
+			messages: {
+				name: "Please enter a valid name (letters only)",
+				email: "Please enter a valid email address",
+				message: "Please enter a message"
+			},
+			errorElement: 'span',
+			errorLabelContainer: '.form-error',
 
-      /* Submit via EmailJS */
-      submitHandler: function(form) {
-        var $submit = $('.submitting'),
-            waitText = 'Submitting...';
+			/* Submit via EmailJS */
+			submitHandler: function(form) {
+				var $submit = $('.submitting'),
+						waitText = 'Submitting...';
 
-        $submit.css('display', 'block').text(waitText);
+				$submit.css('display', 'block').text(waitText);
 
-        // ✉️ Use EmailJS instead of PHP
-        emailjs.sendForm('service_y9anqz5', 'template_qo3g85f', form)
-          .then(function(response) {
-            $('#form-message-warning').hide();
-            setTimeout(function() {
-              $('#contactForm').fadeOut();
-            }, 1000);
-            setTimeout(function() {
-              $('#form-message-success').fadeIn();
-            }, 1400);
-          }, function(error) {
-            $('#form-message-warning').html("Something went wrong. Please try again.");
-            $('#form-message-warning').fadeIn();
-            $submit.css('display', 'none');
-          });
-      }
-    });
-  }
+				// ✉️ Use EmailJS instead of PHP
+				emailjs.sendForm('service_y9anqz5', 'template_qo3g85f', form)
+					.then(function(response) {
+						$('#form-message-warning').hide();
+						setTimeout(function() {
+							$('#contactForm').fadeOut();
+						}, 1000);
+						setTimeout(function() {
+							$('#form-message-success').fadeIn();
+						}, 1400);
+					}, function(error) {
+						$('#form-message-warning').html("Something went wrong. Please try again.");
+						$('#form-message-warning').fadeIn();
+						$submit.css('display', 'none');
+					});
+			}
+		});
+
+		// Add custom validator for pattern rule if not present
+		if (!$.validator.methods.pattern) {
+			$.validator.addMethod("pattern", function(value, element, param) {
+				if (this.optional(element)) {
+					return true;
+				}
+				if (typeof param === "string") {
+					param = new RegExp(param);
+				}
+				return param.test(value);
+			}, "Invalid format.");
+		}
+	}
 };
 
 var stickyFillPlugin = function() {
